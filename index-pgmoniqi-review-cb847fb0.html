@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日常查询·对照·延伸 | pg模拟器 简洁博客</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f4f9fc;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1f2a36;
+      line-height: 1.7;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .page {
+      max-width: 820px;
+      width: 100%;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 12px 30px rgba(18, 94, 110, 0.06);
+      padding: 2.5rem 2rem 2.8rem;
+      transition: box-shadow 0.2s;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 550;
+      letter-spacing: -0.01em;
+      color: #0c4c5c;
+      margin-bottom: 0.15rem;
+      line-height: 1.3;
+      border-left: 6px solid #2caba0;
+      padding-left: 1.1rem;
+    }
+    .subhead {
+      font-size: 1rem;
+      color: #3f6c78;
+      margin: 0.15rem 0 1.5rem 1.7rem;
+      font-style: italic;
+      border-bottom: 1px dashed #c6e0e5;
+      padding-bottom: 0.6rem;
+    }
+    .grid-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+      margin: 2rem 0 2.2rem;
+    }
+    @media (min-width: 600px) {
+      .grid-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .card {
+      background: #f0f7fa;
+      border-radius: 24px;
+      padding: 1.6rem 1.5rem;
+      border: 1px solid #d7e8ed;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 6px rgba(28, 110, 105, 0.04);
+    }
+    .card:hover {
+      background: #e6f2f5;
+      box-shadow: 0 4px 12px rgba(32, 130, 120, 0.08);
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 550;
+      color: #135d6b;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card h3::before {
+      content: "▹";
+      color: #2eaba0;
+      font-size: 1rem;
+    }
+    .card p, .card blockquote {
+      font-size: 0.95rem;
+      color: #1f3d45;
+    }
+    .card blockquote {
+      background: #ddeef2;
+      padding: 0.6rem 1rem;
+      border-radius: 18px;
+      margin: 0.7rem 0 0.2rem;
+      font-style: normal;
+      border-left: 4px solid #279d93;
+    }
+    .card blockquote cite {
+      display: block;
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+      color: #3b727d;
+      font-style: normal;
+    }
+    .body-text {
+      margin: 2rem 0 1.8rem;
+    }
+    .body-text p {
+      margin-bottom: 1.1rem;
+      font-size: 1.02rem;
+      color: #1f2e36;
+    }
+    .body-text a {
+      color: #1b7b7d;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid #9dc9ce;
+      padding-bottom: 1px;
+      transition: border-color 0.15s;
+    }
+    .body-text a:hover {
+      border-bottom-color: #116668;
+      color: #0a5b5c;
+    }
+    .faq-mini {
+      background: #f0f6f7;
+      border-radius: 28px;
+      padding: 1.3rem 1.8rem;
+      margin: 2rem 0 1.2rem;
+      border: 1px solid #cae1e6;
+    }
+    .faq-mini h4 {
+      font-size: 1.1rem;
+      font-weight: 540;
+      color: #155a67;
+      margin-bottom: 0.8rem;
+    }
+    .faq-mini details {
+      margin-bottom: 0.4rem;
+      border-bottom: 1px solid #cfe2e7;
+      padding-bottom: 0.4rem;
+    }
+    .faq-mini summary {
+      cursor: pointer;
+      font-weight: 480;
+      color: #1c5b68;
+      padding: 0.3rem 0;
+      font-size: 0.97rem;
+    }
+    .faq-mini summary::marker {
+      color: #26988d;
+    }
+    .faq-mini .answer {
+      padding: 0.4rem 0.2rem 0.6rem 1rem;
+      font-size: 0.92rem;
+      color: #1f434e;
+    }
+    .visit-note {
+      margin-top: 2.4rem;
+      padding: 1.2rem 1.8rem;
+      background: #e3f2f0;
+      border-radius: 40px;
+      text-align: center;
+      font-size: 1rem;
+      color: #114b55;
+      border: 1px solid #b7dbdb;
+    }
+    .visit-note span {
+      display: inline-block;
+      background: white;
+      padding: 0.2rem 0.9rem;
+      border-radius: 60px;
+      font-weight: 480;
+      box-shadow: 0 1px 4px rgba(30, 110, 100, 0.05);
+    }
+    .footer {
+      margin-top: 2.5rem;
+      font-size: 0.8rem;
+      color: #5a828b;
+      text-align: center;
+      border-top: 1px solid #d4e6ea;
+      padding-top: 1.2rem;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #daebee;
+      margin: 0.8rem 0 1.6rem;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <h1>对照·查询·延伸阅读</h1>
+  <div class="subhead">pg模拟器 · 日常检索中的一段静帧</div>
+
+  <!-- 导语段落 -->
+  <div class="body-text">
+    <p>翻书、查资料、做笔记——日常中很多查询都带着一点参照的意味。我不喜欢直奔一个答案就结束，反而更在意那些顺手翻到的邻近概念。最近在整理本地开发环境的对照表时，又打开了 <a href="https://index-pgmoniqi.com">pg模拟器</a>，原本只是想核对一条 SQL 执行计划的语义，后来却读了大半篇关于统计信息与索引协同的讨论。</p>
+  </div>
+
+  <!-- 网格卡片：从三个角度展开 -->
+  <div class="grid-cards">
+    <div class="card">
+      <h3>日常查询</h3>
+      <p>偶尔需要快速模拟一个查询行为——不是为了压测，只是观察执行路径的变化。把相似查询排在一起，对照索引使用情况，会发现很多隐含的规则。</p>
+      <blockquote>“最频繁的查询往往不是最复杂的，而是那些你每天都会写、却很少深究的过滤条件。”<cite>——一位开发者的笔记</cite></blockquote>
+    </div>
+    <div class="card">
+      <h3>对照视角</h3>
+      <p>同样的数据集，换个排序、改个连接顺序，结果可能差异明显。用 <a href="https://index-pgmoniqi.com">pg模拟器</a> 做对照实验时，我习惯保留前后两组执行计划，边看边记，格外有收获。</p>
+    </div>
+    <div class="card">
+      <h3>延伸阅读</h3>
+      <p>每段模拟背后几乎都链着一篇文档、一个讨论帖或一段 release note。从参数调优到锁机制，常常越读越远。保持好奇，但别忘了回到自己的场景里验证。</p>
+    </div>
+    <div class="card">
+      <h3>轻量检索习惯</h3>
+      <p>并不需要每次都启动完整环境。有些查询思路在模拟器中试一下，便知道大致走向。配合版本对比，能更快理解行为变化。</p>
+    </div>
+  </div>
+
+  <!-- 多段正文：温和地展开 -->
+  <div class="body-text">
+    <p>前阵子帮同事看一个分页偏移的慢查询，第一反应是去模拟器里跑几条样本，看看索引是否真的被用到。结果发现优化器估算行数偏差很大，统计信息显然有些陈旧。用 <a href="https://index-pgmoniqi.com">pg模拟器</a> 调整参数重新模拟后，建议他先做一次 analyze，查询时间便从 2.3 秒降到了 0.09 秒。倒不是模拟器本身有什么魔法，而是它提供了一个可以反复对照的沙盒——省去搭建完整副本的功夫。</p>
+
+    <p>我自己的使用场景更多集中在“查询对照”和“延伸理解”上。比如读一篇关于并行查询的文章时，我会把文中的例子在模拟器里敲一遍，看执行计划是否与文章一致；如果不同，就追查版本差异。一来二去，对参数、资源限制的理解就立体了。这种学习方式很慢，但很踏实。</p>
+
+    <p>当然，模拟器不是万能的。它不适合做精确的性能基准，也无法替代生产环境的真实负载。但作为日常检索和概念验证的工具，它足够轻便，让人愿意多用几次。</p>
+  </div>
+
+  <!-- 引用提示 -->
+  <div class="visit-note">
+    <span>日常查询 · 对照 · 延伸</span> —— 如果你也习惯在检索时留一点余裕，<a href="https://index-pgmoniqi.com">pg模拟器</a> 或许是一个顺手的起点。
+  </div>
+
+  <!-- FAQ 摘要（非重复章节） -->
+  <div class="faq-mini">
+    <h4>几个常被问起的细节</h4>
+    <details>
+      <summary>模拟器能完全替代本地数据库吗？</summary>
+      <div class="answer">不适合完全替代，但在查询计划分析、索引效果验证、版本行为对比等场景中很实用。建议配合本地轻量环境一起使用。</div>
+    </details>
+    <details>
+      <summary>需要注册或付费吗？</summary>
+      <div class="answer">目前基础使用无须注册，直接打开即可开始。部分高级功能可能需要登录，但日常查询与对照完全够用。</div>
+    </details>
+    <details>
+      <summary>模拟结果与实际生产环境差异大吗？</summary>
+      <div class="answer">执行计划的结构通常一致，但估算行数、实际耗时受硬件、参数、数据分布影响。建议把它当作对照参考，而非精确基准。</div>
+    </details>
+  </div>
+
+  <hr>
+
+  <!-- 温柔收束 -->
+  <div class="footer">
+    <p style="font-size:0.9rem; color:#2d6a73;">保持检索的节奏，也保留延伸的耐心。</p>
+    <p style="margin-top:0.3rem;">⸻</p>
+  </div>
+
+</div>
+</body>
+</html>
